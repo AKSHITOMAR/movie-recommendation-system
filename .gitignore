@@ -1,8 +1,13 @@
-# Ignore virtual environment
+# Virtual environment
 .venv/
 
-# Ignore IDE files
+# IDE files
 .idea/
 
-# Ignore large model files
-similarity.pkl
+# Python cache
+__pycache__/
+*.pyc
+
+# Model / data files
+*.pkl
+
