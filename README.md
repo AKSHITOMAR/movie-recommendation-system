@@ -6,7 +6,7 @@ The app recommends movies similar to the selected one and displays their posters
 ---
 
 ## 🚀 Live Demo
-👉 https://movie-recommendation-system-sdboog33ck7c98tzjntwpy.streamlit.app
+👉 https://movie-recommendation-system-sdboog33ck7c98fzjntwpy.streamlit.app/
 
 ---
 
