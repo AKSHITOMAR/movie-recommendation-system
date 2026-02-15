@@ -74,6 +74,7 @@ import pickle
 import pandas as pd
 import streamlit as st
 import requests
+import os
 from model_utils import build_similarity
 
 # ------------------ API ------------------
@@ -85,17 +86,21 @@ def fetch_poster(movie_id):
     return "https://via.placeholder.com/500x750?text=No+Image"
 
 # ------------------ LOAD DATA ------------------
-movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
+movies_dict = pickle.load(open("movie_dict.pkl", "rb"))
 movies = pd.DataFrame(movies_dict)
 
-# ------------------ BUILD SIMILARITY ------------------
-with st.spinner("Preparing recommendation engine..."):
-    similarity = build_similarity(movies)
+# ------------------ BUILD / LOAD SIMILARITY ------------------
+if os.path.exists("similarity.pkl"):
+    similarity = pickle.load(open("similarity.pkl", "rb"))
+else:
+    with st.spinner("Preparing recommendation engine... (first run may take 2–5 min)"):
+        similarity = build_similarity()
 
 # ------------------ RECOMMEND FUNCTION ------------------
 def recommend(movie):
     index = movies[movies['title'] == movie].index[0]
     distances = similarity[index]
+
     movie_list = sorted(
         list(enumerate(distances)),
         reverse=True,
@@ -104,6 +109,7 @@ def recommend(movie):
 
     names = []
     posters = []
+
     for i in movie_list:
         movie_id = movies.iloc[i[0]].movie_id
         names.append(movies.iloc[i[0]].title)
@@ -116,7 +122,7 @@ st.title("🎬 Movie Recommender System")
 
 selected_movie = st.selectbox(
     "Select a movie",
-    movies['title'].values
+    movies["title"].values
 )
 
 if st.button("Recommend"):
