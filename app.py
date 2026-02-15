@@ -32,7 +32,16 @@ def recommend(movie):
 movies_dict=pickle.load(open('movie_dict.pkl','rb'))
 movies = pd.DataFrame(movies_dict)
 
-similarity=pickle.load(open('similarity.pkl','rb'))
+# similarity=pickle.load(open('similarity.pkl','rb'))
+import os
+from model_utils import build_similarity
+
+if os.path.exists("similarity.pkl"):
+    similarity = pickle.load(open("similarity.pkl", "rb"))
+else:
+    with st.spinner("Preparing recommendation engine..."):
+        similarity = build_similarity()
+
 
 st.title('Movie  Recommender System')
 
