@@ -1,1 +1,8 @@
-venv
+# Ignore virtual environment
+.venv/
+
+# Ignore IDE files
+.idea/
+
+# Ignore large model files
+similarity.pkl
